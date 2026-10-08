@@ -1,340 +1,175 @@
 # 🚀 Advanced Optimizers
 
-## 📌 Overview
+## Introduction
 
-Optimizers are responsible for updating the weights of a Neural Network and helping it learn from mistakes.
+Advanced Optimizers improve the training process of neural networks by automatically adjusting learning rates during optimization.
 
-Although basic Gradient Descent methods can train a Neural Network, they are often slow and inefficient for real-world Deep Learning problems.
+In this section, we study:
 
-To improve learning speed and stability, advanced optimizers were developed.
+- AdaGrad
+- RMSProp
+- Adam
 
-This category covers:
-
-- Adam Optimizer
-- RMSProp Optimizer
-
-These optimizers help Neural Networks learn faster and reach better solutions more efficiently.
+These optimizers solve the limitations of traditional Gradient Descent and help neural networks converge faster and more efficiently.
 
 ---
 
-# 🎯 Why Do We Need Advanced Optimizers?
+# 1. AdaGrad (Adaptive Gradient)
 
-During Neural Network training:
+## Concept
 
-```text
-Prediction
-      ↓
+AdaGrad adapts the learning rate for each parameter individually.
 
-Loss Function
-      ↓
+- Frequently updated parameters receive smaller learning rates.
+- Rarely updated parameters receive larger learning rates.
 
-Error
-      ↓
+This makes AdaGrad particularly useful for sparse datasets.
 
-Backpropagation
-      ↓
+## Advantages
 
-Gradients
-      ↓
+✅ Adaptive learning rates
 
-Optimizer
-      ↓
+✅ Works well with sparse data
 
-Weight Updates
-```
+✅ Useful in NLP tasks
 
-The optimizer decides how the weights should be updated.
+## Disadvantages
 
-A better optimizer usually means:
+❌ Learning rate continuously decreases
 
-✅ Faster Learning
+❌ Training may stop too early
 
-✅ Better Stability
-
-✅ Improved Performance
-
----
-
-# 🚀 Adam Optimizer
-
-## 🎯 What is Adam?
-
-Adam stands for:
-
-```text
-Adaptive Moment Estimation
-```
-
-It is one of the most popular optimizers in Deep Learning.
-
-Adam combines ideas from multiple optimization techniques to create a fast and stable learning process.
-
----
-
-# 🧠 Intuition Behind Adam
-
-Adam behaves like a smart learner.
-
-Instead of making decisions based only on the current situation, it also remembers previous learning steps.
-
-This helps it make better weight updates.
-
----
-
-# 🚗 Driving Analogy
-
-Imagine driving toward a destination.
-
-### SGD
-
-```text
-Moves Fast
-```
-
-But may take unnecessary turns.
-
----
-
-### Adam
-
-```text
-Remembers Earlier Directions
-+
-Adjusts Movement Smartly
-```
-
-This leads to more stable and efficient learning.
-
----
-
-# ✅ Advantages of Adam
-
-- Fast learning
-- Stable training
-- Works well on many datasets
-- Requires very little tuning
-- Widely used in Deep Learning projects
-
----
-
-# 🌟 Typical Usage
+## TensorFlow Implementation
 
 ```python
-optimizer='adam'
-```
+import tensorflow as tf
 
-Adam is usually the default optimizer used in many ANN, CNN, and NLP projects.
+optimizer = tf.keras.optimizers.Adagrad(
+    learning_rate=0.01
+)
 
----
-
-# 🚀 RMSProp Optimizer
-
-## 🎯 What is RMSProp?
-
-RMSProp stands for:
-
-```text
-Root Mean Square Propagation
-```
-
-It is an adaptive optimizer that adjusts learning rates automatically during training.
-
----
-
-# 🧠 Intuition Behind RMSProp
-
-RMSProp does not treat every weight equally.
-
-Instead, it adjusts updates depending on how the network is learning.
-
-This allows it to improve training efficiency.
-
----
-
-# 🚗 Driving Analogy
-
-Imagine driving on different roads.
-
-### Straight Road
-
-```text
-Drive Faster
+model.compile(
+    optimizer=optimizer,
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
 ```
 
 ---
 
-### Sharp Turn
+# 2. RMSProp (Root Mean Square Propagation)
 
-```text
-Slow Down
-```
+## Concept
 
-RMSProp behaves similarly by adapting weight updates according to the situation.
+RMSProp was introduced to solve AdaGrad's learning-rate decay problem.
 
----
+Instead of storing all previous gradients, RMSProp only focuses on recent gradients.
 
-# ✅ Advantages of RMSProp
+This prevents the learning rate from becoming extremely small.
 
-- Adaptive learning rates
-- Stable training process
-- Faster convergence
-- Better than standard Gradient Descent in many cases
+## Advantages
 
----
+✅ Solves AdaGrad's major limitation
 
-# 🌟 Typical Usage
+✅ Faster convergence
+
+✅ Stable training
+
+✅ Effective for deep neural networks
+
+## Disadvantages
+
+❌ Requires hyperparameter tuning
+
+❌ Can sometimes be outperformed by Adam
+
+## TensorFlow Implementation
 
 ```python
-optimizer='rmsprop'
-```
+import tensorflow as tf
 
-RMSProp is widely used in Deep Learning and sequence-based models.
+optimizer = tf.keras.optimizers.RMSprop(
+    learning_rate=0.001
+)
 
----
-
-# ⚖️ Adam vs RMSProp
-
-| Adam | RMSProp |
-|--------|---------|
-| Most popular optimizer | Popular adaptive optimizer |
-| Uses memory of previous updates | Focuses on adaptive learning rates |
-| Common default choice | Useful in many Deep Learning tasks |
-| Beginner friendly | Alternative advanced optimizer |
-
----
-
-# 🎯 Which Optimizer Should Beginners Use?
-
-For most ANN and CNN projects:
-
-✅ Adam
-
-is the recommended starting choice.
-
-Reason:
-
-```text
-Simple
-       +
-Fast
-       +
-Stable
+model.compile(
+    optimizer=optimizer,
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
 ```
 
 ---
 
-# 🔄 Relationship with Training
+# 3. Adam (Adaptive Moment Estimation)
 
-Optimizers are used after:
+## Concept
 
-```text
-Backpropagation
-```
+Adam combines the strengths of:
 
-The learning process becomes:
+- Momentum
+- RMSProp
 
-```text
-Prediction
-      ↓
+It adapts learning rates while also using information from previous gradients.
 
-Loss
-      ↓
+Adam is currently the most widely used optimizer in Deep Learning.
 
-Backpropagation
-      ↓
+## Advantages
 
-Gradients
-      ↓
+✅ Fast convergence
 
-Optimizer
-      ↓
+✅ Adaptive learning rates
 
-Weight Updates
-```
+✅ Stable training
 
----
+✅ Less hyperparameter tuning
 
-# 🌍 Real-World Usage
+✅ Works well on most deep learning tasks
 
-Advanced optimizers are used in:
+## Disadvantages
 
-- Artificial Neural Networks (ANN)
-- Convolutional Neural Networks (CNN)
-- Recurrent Neural Networks (RNN)
-- Computer Vision Systems
-- NLP Models
-- Generative AI Systems
+❌ Slightly higher memory usage
 
----
+❌ SGD may sometimes generalize better
 
-# ✅ Key Points
+## TensorFlow Implementation
 
-### Adam
+```python
+import tensorflow as tf
 
-- Fast and stable
-- Most commonly used optimizer
-- Beginner friendly
-- Excellent default choice
+optimizer = tf.keras.optimizers.Adam(
+    learning_rate=0.001
+)
 
----
-
-### RMSProp
-
-- Adaptive optimizer
-- Efficient weight updates
-- Stable learning process
-- Useful alternative to Adam
-
----
-
-# 🎓 Interview Questions
-
-### What is Adam Optimizer?
-
-Adam (Adaptive Moment Estimation) is a widely used optimization algorithm that updates neural network weights efficiently using both current and previous gradient information.
-
----
-
-### Why is Adam widely used?
-
-Because it provides fast learning, stable training, and strong performance across many Deep Learning tasks.
-
----
-
-### What is RMSProp?
-
-RMSProp is an optimization algorithm that adapts learning rates during training to improve the efficiency of weight updates.
-
----
-
-### Which optimizer is recommended for beginners?
-
-Adam.
-
----
-
-# 🌟 Memory Tricks
-
-```text
-SGD
-      ↓
-Fast Learner
-```
-
-```text
-RMSProp
-      ↓
-Adaptive Learner
-```
-
-```text
-Adam
-      ↓
-Adaptive + Smart Learner
+model.compile(
+    optimizer=optimizer,
+    loss='categorical_crossentropy',
+    metrics=['accuracy']
+)
 ```
 
 ---
 
-# 🏁 Conclusion
+# Comparison
 
-Adam and RMSProp are advanced optimization algorithms that improve Neural Network training. They update weights more efficiently than traditional Gradient Descent methods and help models learn faster and more reliably. Among them, Adam is the most widely used optimizer in modern Deep Learning projects due to its simplicity, stability, and strong performance.
+| Optimizer | Main Idea | Major Strength | Major Weakness |
+|------------|------------|------------|------------|
+| AdaGrad | Adaptive Learning Rate | Works well with sparse data | Learning rate becomes very small |
+| RMSProp | Uses Recent Gradients | Prevents learning-rate decay | Requires tuning |
+| Adam | Momentum + RMSProp | Fast and stable training | Higher memory usage |
+
+---
+
+# Key Takeaways
+
+- AdaGrad introduced adaptive learning rates.
+- RMSProp solved AdaGrad's learning-rate decay problem.
+- Adam combines Momentum and RMSProp.
+- Adam is the most commonly used optimizer in modern Deep Learning.
+- Advanced Optimizers improve convergence speed and training stability.
+
+---
+
+# Conclusion
+
+AdaGrad, RMSProp, and Adam are advanced optimization algorithms that improve neural network training by adapting learning rates during optimization. Among them, Adam is the most popular because it combines the benefits of both Momentum and RMSProp, resulting in faster and more stable convergence.
